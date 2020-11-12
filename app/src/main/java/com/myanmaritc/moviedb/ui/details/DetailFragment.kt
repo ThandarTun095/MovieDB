@@ -47,7 +47,8 @@ class DetailFragment : Fragment() {
             .load(baseImg + item.posterPath)
             .into(posterImg)
 
-
+        val rating = item.voteAverage!!.toFloat()
+        rating_bar.rating = (rating / 2)
     }
 
 

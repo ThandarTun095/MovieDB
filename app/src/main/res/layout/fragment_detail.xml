@@ -38,13 +38,31 @@
             android:text="Relate Date"
             android:textColor="#FF5722" />
 
-        <TextView
-            android:id="@+id/voteAverage"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
-            android:text="Vote Average"
-            android:textColor="@android:color/white" />
+            android:orientation="horizontal">
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="4"
+                android:stepSize=".5"
+                android:theme="@style/RatingBar" />
+
+            <TextView
+                android:id="@+id/voteAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vote Average"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <ImageView
