@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,19 +16,27 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.myanmaritc.moviedb.R
 import com.myanmaritc.moviedb.model.ResultsItem
 import com.myanmaritc.moviedb.ui.adapter.MovieAdapter
+import com.myanmaritc.moviedb.ui.nowPlaying.NowPlayingViewModel
+import kotlinx.android.synthetic.main.fragment_now_playing.*
 import kotlinx.android.synthetic.main.fragment_popular.*
+import kotlinx.android.synthetic.main.fragment_popular.edtSearchNowPlaying
 
 class PopularFragment : Fragment(), MovieAdapter.OnClickListener {
 
-    private lateinit var popularViewModel: PopularViewModel
+    private val viewModel: PopularViewModel by viewModels()
+    private val popularAdapter by lazy {
+        MovieAdapter()
+    }
+
+//    private lateinit var popularViewModel: PopularViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        popularViewModel =
-            ViewModelProvider(this).get(PopularViewModel::class.java)
+//        popularViewModel =
+//            ViewModelProvider(this).get(PopularViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_popular, container, false)
 
 
@@ -36,26 +46,48 @@ class PopularFragment : Fragment(), MovieAdapter.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var popularAdapter = MovieAdapter()
-
         recycler_popular.apply {
-
-            recycler_popular.layoutManager = GridLayoutManager(context, 2)
-            recycler_popular.adapter = popularAdapter
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = popularAdapter
         }
 
         popularAdapter.setOnClickListener(this)
 
+        //listen text change event and search from base dataset
+        edtSearchNowPlaying.addTextChangedListener { text ->
+            viewModel.filterWithKeyword(keyword = text.toString())
+        }
 
-        popularViewModel.getPopular().observe(viewLifecycleOwner, Observer { popular ->
+        //observing data from api
+        viewModel.popularMovieLiveData.observe(
+            viewLifecycleOwner,
+            Observer(::observePopularMovie)
+        )
 
-            popularAdapter.addMovie(popular.results as List<ResultsItem>)
-        })
+
+//        var popularAdapter = MovieAdapter()
+//
+//        recycler_popular.apply {
+//
+//            recycler_popular.layoutManager = GridLayoutManager(context, 2)
+//            recycler_popular.adapter = popularAdapter
+//        }
+//
+//        popularAdapter.setOnClickListener(this)
+//
+//
+//        popularViewModel.getPopular().observe(viewLifecycleOwner, Observer { popular ->
+//
+//            popularAdapter.addMovieList(popular.results as List<ResultsItem>)
+//        })
     }
 
+    private fun observePopularMovie(movies: List<ResultsItem>) {
+        popularAdapter.addMovieList(movieList = movies)
+    }
     override fun onResume() {
         super.onResume()
-        popularViewModel.loadData()
+        viewModel.loadData()
     }
 
     override fun onClick(item: ResultsItem) {

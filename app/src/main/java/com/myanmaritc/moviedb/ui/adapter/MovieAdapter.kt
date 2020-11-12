@@ -18,29 +18,29 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     var clickListener: OnClickListener? = null
 
 
-   inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-   View.OnClickListener{
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
 
-       init {
-           itemView.setOnClickListener(this)
-       }
-
-       lateinit var item: ResultsItem
-
-        fun bind(resultsItem: ResultsItem){
-            this.item = resultsItem  //get data
-            Picasso.get()
-                .load(baseImg+resultsItem.posterPath)
-                .into(itemView.imgMovie)
-            itemView.txtName.text = resultsItem.title
-            itemView.releaseDate.text=resultsItem.releaseDate
-            itemView.voteAverage.text=resultsItem.voteAverage.toString()
+        init {
+            itemView.setOnClickListener(this)
         }
 
-       override fun onClick(view: View?) {
-           clickListener?.onClick(item)
-       }
-   }
+        lateinit var item: ResultsItem
+
+        fun bind(resultsItem: ResultsItem) {
+            this.item = resultsItem  //get data
+            Picasso.get()
+                .load(baseImg + resultsItem.posterPath)
+                .into(itemView.imgMovie)
+            itemView.tvName.text = resultsItem.title
+            itemView.tvReleaseDate.text = resultsItem.releaseDate
+            itemView.tvVoteAverage.text = resultsItem.voteAverage.toString()
+        }
+
+        override fun onClick(view: View?) {
+            clickListener?.onClick(item)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -51,13 +51,12 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     override fun getItemCount(): Int = movieList.size
 
 
-
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(movieList[position])
     }
 
     //add data
-    fun addMovie(movieList: List<ResultsItem> ) {
+    fun addMovieList(movieList: List<ResultsItem>) {
         this.movieList = movieList
         notifyDataSetChanged()
     }
@@ -66,7 +65,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         fun onClick(item: ResultsItem)
     }
 
-    fun setOnClickListener(clickListener: OnClickListener){
+    fun setOnClickListener(clickListener: OnClickListener) {
         this.clickListener = clickListener
     }
 
