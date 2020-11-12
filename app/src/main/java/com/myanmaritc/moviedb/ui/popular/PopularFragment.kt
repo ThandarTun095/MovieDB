@@ -21,12 +21,12 @@ class PopularFragment : Fragment(), MovieAdapter.OnClickListener {
     private lateinit var popularViewModel: PopularViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         popularViewModel =
-                ViewModelProvider(this).get(PopularViewModel::class.java)
+            ViewModelProvider(this).get(PopularViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_popular, container, false)
 
 
@@ -44,6 +44,7 @@ class PopularFragment : Fragment(), MovieAdapter.OnClickListener {
             recycler_popular.adapter = popularAdapter
         }
 
+        popularAdapter.setOnClickListener(this)
 
 
         popularViewModel.getPopular().observe(viewLifecycleOwner, Observer { popular ->
@@ -58,7 +59,7 @@ class PopularFragment : Fragment(), MovieAdapter.OnClickListener {
     }
 
     override fun onClick(item: ResultsItem) {
-    val directions = PopularFragmentDirections.actionNavPopularToDetailFragment(item)
+        val directions = PopularFragmentDirections.actionNavPopularToDetailFragment(item)
         view?.findNavController()?.navigate(directions)
     }
 }

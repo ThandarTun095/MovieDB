@@ -31,14 +31,21 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //val args = arguments?.let { DetailFragmentArgs.fromBundle(it) }
+        // val args = arguments?.let { DetailFragmentArgs.fromBundle(it) }
         item = args.item
 
         Picasso.get()
-            .load(baseImg+item.backdropPath)
-            .placeholder(R.drawable.ic_launcher_background)
+            .load(baseImg + item.backdropPath)
             .into(imgBackground)
-        txtTitle.text = item.title
+
+        movieTitle.text = item.title
+        voteAverage.text = item.voteAverage.toString()
+        releaseDate.text = item.releaseDate
+        overview.text = item.overview
+
+        Picasso.get()
+            .load(baseImg + item.posterPath)
+            .into(posterImg)
 
 
     }

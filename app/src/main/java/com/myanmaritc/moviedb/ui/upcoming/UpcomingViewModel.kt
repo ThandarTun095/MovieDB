@@ -9,18 +9,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UpcomingViewModel : ViewModel(){
+class UpcomingViewModel : ViewModel() {
 
     private var upcomingModel: MutableLiveData<Movie> = MutableLiveData()
 
-    fun getUpcoming() =upcomingModel
+    fun getUpcoming() = upcomingModel
 
     fun loadData() {
 
         var apiClient = MovieClient()
         var apiCall = apiClient.getUpcoming()
 
-        apiCall.enqueue(object : Callback<Movie>{
+        apiCall.enqueue(object : Callback<Movie> {
             override fun onFailure(call: Call<Movie>, t: Throwable) {
 
             }

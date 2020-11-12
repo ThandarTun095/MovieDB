@@ -20,7 +20,7 @@ class PopularViewModel : ViewModel() {
         var apiClient = MovieClient()
         var apiCall = apiClient.getPopular()
 
-        apiCall.enqueue(object : Callback<Movie>{
+        apiCall.enqueue(object : Callback<Movie> {
             override fun onFailure(call: Call<Movie>, t: Throwable) {
 
             }

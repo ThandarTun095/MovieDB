@@ -21,12 +21,12 @@ class TopRatedFragment : Fragment(), MovieAdapter.OnClickListener {
     private lateinit var topRatedViewModel: TopRatedViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         topRatedViewModel =
-               ViewModelProvider(this).get(TopRatedViewModel::class.java)
+            ViewModelProvider(this).get(TopRatedViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_top_rated, container, false)
 
         return root
@@ -38,11 +38,13 @@ class TopRatedFragment : Fragment(), MovieAdapter.OnClickListener {
         var topRatedAdapter = MovieAdapter()
 
         recycler_top_rated.apply {
-            recycler_top_rated.layoutManager=GridLayoutManager(context,2)
-            recycler_top_rated.adapter=topRatedAdapter
+            recycler_top_rated.layoutManager = GridLayoutManager(context, 2)
+            recycler_top_rated.adapter = topRatedAdapter
         }
 
-        topRatedViewModel.gettopRated().observe(viewLifecycleOwner, Observer { topRated->
+        topRatedAdapter.setOnClickListener(this)
+
+        topRatedViewModel.gettopRated().observe(viewLifecycleOwner, Observer { topRated ->
             topRatedAdapter.addMovie(topRated.results as List<ResultsItem>)
         })
     }

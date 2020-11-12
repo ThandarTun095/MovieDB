@@ -27,7 +27,7 @@ class UpcomingFragment : Fragment(), MovieAdapter.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         upcomingViewModel =
-                ViewModelProvider(this).get(UpcomingViewModel::class.java)
+            ViewModelProvider(this).get(UpcomingViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_upcoming, container, false)
         // Inflate the layout for this fragment
         return root
@@ -43,7 +43,9 @@ class UpcomingFragment : Fragment(), MovieAdapter.OnClickListener {
             recycler_upcoming.adapter = upcomingAdapter
         }
 
-        upcomingViewModel.getUpcoming().observe(viewLifecycleOwner, Observer {upcoming ->
+        upcomingAdapter.setOnClickListener(this)
+
+        upcomingViewModel.getUpcoming().observe(viewLifecycleOwner, Observer { upcoming ->
             upcomingAdapter.addMovie(upcoming.results as List<ResultsItem>)
 
         })
