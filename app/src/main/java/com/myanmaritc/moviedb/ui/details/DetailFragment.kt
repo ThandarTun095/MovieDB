@@ -49,6 +49,9 @@ class DetailFragment : Fragment() {
 
         val rating = item.voteAverage!!.toFloat()
         rating_bar.rating = (rating / 2)
+
+        originalLanguage.text = item.originalLanguage
+        popularity.text = item.popularity.toString()
     }
 
 
